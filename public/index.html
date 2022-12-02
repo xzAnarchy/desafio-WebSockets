@@ -15,9 +15,6 @@
 </head>
 
 <body>
-    <div id="nameMsj">
-    </div>
-
     <div class="container mt-3">
         <div class="jumbotron">
             <h1>Ingrese Producto</h1>
@@ -27,7 +24,7 @@
                 <!-- Campo nombre del producto -->
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" class="form-control " placeholder="Ingresa el nombre del producto" required>
+                    <input type="text" id="nombre" class="form-control " name="title" placeholder="Ingresa el nombre del producto" required>
                 </div>
 
                 <!-- Campo precio del producto -->
@@ -44,52 +41,32 @@
                 </div>
 
                 <!-- Botón de envío -->
-                <button class="btn btn-success mt-3" id="btnProducts" onclick="return addNewProduct(this)">Enviar</button>
+                <button class="btn btn-success mt-3" id="btnProducts">Enviar</button>
             </form>
             <br>
-            <div>
-                <div class="table-responsive">
-                    <table class="table table-dark">
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Foto</th>
-                        </tr>
-                        <tbody id="productos">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div id="productos"></div>
         </div>
 
         <div class="jumbotron">
             <h1>Centro de Mensajes</h1>
-            <br>
-
-            <hr>
-
+            <br />
+    
+            <input type="email" id="inputUsername" id="author" class="form-control w-50 my-2 mr-2" placeholder="Ingresa tu email" />
+    
+            <hr />
+    
             <div id="mensajes"></div>
-
-            <!-- Aqui viene el formulario -->
-        <form onsubmit="return addMessage(this)">
-            <div class="input-group mb-3">
-                <input type="text" id="author" class="form-control " placeholder="Ingresá tu email" required>
-                <input type="text" id="text" class="form-control" placeholder="Mensaje" required>
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
-                    <!-- icono -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16"><path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/></svg>
-                    enviar
+    
+            <form id="formPublicarMensaje" class="form-inline" autocomplete="off">
+              <div class="form-group">
+                <input id="inputMensaje" id="text" type="text" class="form-control my-2 mr-2"placeholder="Ingresa un mensaje..."/>
+                <button id="btnEnviar" type="submit" class="btn btn-primary my-2">
+                  Enviar!
                 </button>
-            </div>
-        </form>
-        
-        <!-- Aqui vamos a renderizar los mensajes -->
-        <div id="message" class=" mt-4 bgBox">
-
+              </div>
+            </form>
+          </div>
         </div>
-        </div>
-    </div>
 
     <script src="js/main.js"></script>
 

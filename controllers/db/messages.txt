@@ -1,0 +1,52 @@
+[
+  {
+    "author": "admin@email.com",
+    "date": "24/11/2022 19:57:22",
+    "text": "Bienvenido al canal de chat",
+    "id": 1
+  },
+  {
+    "author": "gfchazarreta@mail.com",
+    "date": "11/24/2022 20:28:23",
+    "text": "Probando el canal de chat",
+    "id": 2
+  },
+  {
+    "author": "simonellidiego@gmail.com",
+    "date": "11/25/2022 19:31:42",
+    "text": "hola como va?",
+    "id": 3
+  },
+  {
+    "author": "wffefe",
+    "date": "12/01/2022 23:29:00",
+    "text": "qdwf",
+    "id": 4
+  },
+  {
+    "author": "dsvsds",
+    "date": "1/12/2022",
+    "time": "11:29:21 PM",
+    "text": "asda",
+    "id": 5
+  },
+  {
+    "author": "adad",
+    "date": "1/12/2022",
+    "time": "11:33:07 PM",
+    "text": "adad",
+    "id": 6
+  },
+  {
+    "author": "dwdw",
+    "date": "1/12/202211:33:56 PM",
+    "text": "wdwdw",
+    "id": 7
+  },
+  {
+    "author": "wdwdw",
+    "date": "1/12/2022 11:34:12 PM",
+    "text": "wdwd",
+    "id": 8
+  }
+]

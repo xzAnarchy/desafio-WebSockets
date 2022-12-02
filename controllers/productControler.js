@@ -1,81 +1,85 @@
-let products = []
+const fs = require("fs");
+
 class ProductControler {
-    constructor() {
+    constructor(route) {
+      this.route = route;
     }
-    getAll(req, res) {
-        try {
-            res.render("products", { products: products, empty: products.length === 0 ? true : false })
-        } catch (error) {
-            console.log("Error en getAll", error);
-        }
+  async list(id) {
+    const products = await this.listAll();
+    try {
+      const product = products.find((prod) => prod.id === id);
+      return product ? product : null;
+    } catch (error) {
+      console.log(error);
     }
-    getById(req, res) {
-        try {
-            const { id } = req.params
-            if (isNaN(id)) {
-                res.status(400).json({ Error: "El parametro ingresado no es un numero" })
-            }
-            const product = products.filter(filterProduct => filterProduct.id === Number(id))
-            if (!product[0]) {
-                res.status(404).json({ Error: "El producto no existe" })
-            }
-            res.status(200).json(product)
-        } catch (error) {
-            console.log("Error en getById", error);
-        }
+  }
+
+  async listAll() {
+    try {
+      const products = await fs.promises.readFile(this.route, "utf-8");
+      return JSON.parse(products);
+    } catch (error) {
+      console.log(error);
     }
-    addProduct(req, res) {
-        try {
-            const { title, price, thumbnail } = req.body
-            const product = { title: title, price: price, thumbnail: thumbnail }
-            if (products.length === 0) {
-                product.id = 1
-            }
-            else {
-                const lastId = products[products.length - 1].id
-                product.id = lastId + 1
-            }
-            products.push(product)
-            console.log(products);
-            res.redirect("/")
-        } catch (error) {
-            console.log("Error en addProduct", error);
-        }
+  }
+
+  async save(product) {
+    const products = await this.listAll();
+
+    try {
+      let id;
+      products.length === 0
+        ? (id = 1)
+        : (id = products[products.length - 1].id + 1);
+      const newProduct = { ...product, id };
+      products.push(newProduct);
+      await this.writeFile(products);
+      return newProduct.id;
+    } catch (error) {
+      console.log(error);
     }
-    updateProduct(req, res) {
-        try {
-            const { id } = req.params
-            const { title, price, thumbnail } = req.body
-            if (isNaN(id)) {
-                res.status(400).json({ Error: "El parametro ingresado no es un numero" })
-            }
-            const index = products.findIndex(product => product.id === Number(id))
-            if (index === -1) {
-                res.status(404).json({ Error: "El producto no existe" })
-            }
-            const productUpdated = { title: title, price: price, thumbnail: thumbnail, id: Number(id) }
-            products[index] = productUpdated
-            res.status(200).json({ productUpdated })
-        } catch (error) {
-            console.log("Error en updateProduct", error)
-        }
+  }
+
+  async update(prod, id) {
+    const products = await this.listAll();
+    try {
+      const updatedProduct = products.find(
+        (product) => product.id === parseInt(id)
+      );
+      if (updatedProduct) {
+        const prods = products.filter((product) => product.id !== parseInt(id));
+        prods.push({ ...prod, id: parseInt(id) });
+        await this.writeFile(prods);
+        return updatedProduct;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log(error);
     }
-    deleteById(req, res) {
-        try {
-            const { id } = req.params
-            if (isNaN(id)) {
-                res.status(400).json({ Error: "El parametro ingresado no es un numero" })
-            }
-            const product = products.filter(filterProduct => filterProduct.id === Number(id))
-            if (!product) {
-                res.status(404).json({ Error: "El producto no existe" })
-            }
-            products = products.filter(filterProduct => filterProduct.id !== Number(id))
-            res.status(200).json(`Producto con id : ${id} eliminado exitosamente`)
-        } catch (error) {
-            console.log("Error en deleteById", error);
-        }
+  }
+
+  async delete(id) {
+    const products = await this.listAll();
+    try {
+      const newProducts = products.filter((prod) => prod.id !== id);
+      await this.writeFile(newProducts);
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  async deleteAll() {
+    await this.writeFile([]);
+  }
+
+  async writeFile(data) {
+    try {
+      await fs.promises.writeFile(this.route, JSON.stringify(data, null, 2));
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = ProductControler
